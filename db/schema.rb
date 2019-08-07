@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_30_034327) do
+ActiveRecord::Schema.define(version: 2019_08_06_083038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,6 +96,13 @@ ActiveRecord::Schema.define(version: 2019_07_30_034327) do
     t.index ["project_id"], name: "index_surveys_on_project_id"
   end
 
+  create_table "surveys_users", id: false, force: :cascade do |t|
+    t.bigint "survey_id"
+    t.bigint "user_id"
+    t.index ["survey_id"], name: "index_surveys_users_on_survey_id"
+    t.index ["user_id"], name: "index_surveys_users_on_user_id"
+  end
+
   create_table "tags", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
@@ -125,9 +132,7 @@ ActiveRecord::Schema.define(version: 2019_07_30_034327) do
     t.bigint "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "tag_id"
     t.index ["project_id"], name: "index_tasks_on_project_id"
-    t.index ["tag_id"], name: "index_tasks_on_tag_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -151,6 +156,7 @@ ActiveRecord::Schema.define(version: 2019_07_30_034327) do
     t.string "openid"
     t.bigint "tag_id"
     t.integer "comp"
+    t.boolean "admin", default: false
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -167,6 +173,5 @@ ActiveRecord::Schema.define(version: 2019_07_30_034327) do
   add_foreign_key "surveys", "projects"
   add_foreign_key "tags", "users"
   add_foreign_key "tasks", "projects"
-  add_foreign_key "tasks", "tags"
   add_foreign_key "users", "tags"
 end

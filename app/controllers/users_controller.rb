@@ -16,6 +16,13 @@ class UsersController < ApplicationController
     @wechat_user ||= JSON.parse(@wechat_response.body)
   end
 
+  def show
+    current_user
+  end
+
+
+ 
+
   def login
     @new_user = false
     @user = User.find_by(openid: wechat_user.fetch("openid"))
@@ -25,8 +32,7 @@ class UsersController < ApplicationController
     end
     render json:  {
       userId: @user.id,
-      newUser: @new_user,
-      comp: @user.comp
+      newUser: @new_user
     }
   end
 end

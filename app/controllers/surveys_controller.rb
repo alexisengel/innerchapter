@@ -2,7 +2,7 @@ class SurveysController < ApplicationController
 	skip_before_action :verify_authenticity_token
 
 	acts_as_token_authentication_handler_for User, fallback: :none
-	def index
+	def show
 		@survey = Survey.last
 		@questions = @survey.questions
 	end
@@ -18,6 +18,10 @@ class SurveysController < ApplicationController
 			@tag = Tag.find(t)
 			@user.tags << @tag 
 		end
+	end
+
+	def index
+		@surveys = Survey.all
 	end
 
 	private
