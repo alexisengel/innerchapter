@@ -8,6 +8,6 @@ class TasksController < ApplicationController
 		@user.tags.each do |tag|
 		 	@all_tasks << @not_done_tasks.joins(:tags).where("tags.id = ?", tag.id)
 		end
-		@tasks = @all_tasks.flatten
+		@tasks = @all_tasks.flatten.uniq
 	end
 end

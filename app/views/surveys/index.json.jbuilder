@@ -1,1 +1,1 @@
-json.array @surveys
+json.array! @surveys
